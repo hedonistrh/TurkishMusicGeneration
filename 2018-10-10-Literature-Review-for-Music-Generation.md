@@ -122,7 +122,7 @@ We can look their compositions' statistic to understand that can the system capt
 - Distribution of pitches agree with the training data.
 - Distribution of the number of tokens in a transcription agree with the training data.
 
-![Alt Text](https://docs.google.com/uc?id=)
+![Alt Text](https://docs.google.com/uc?id=1JhQYSYsLzZRtejPY3BvwpASiXohbyodw)
 
 _"The folk-rnn system seems to have learned about ending transcriptions on the tonic; and using measure tokens to create transcriptions with an AABB structure with each section being 8 measures long. In our latest experiments, we trained a folk-rnn system with transcriptions spelling out repeated measures (replacing each repeat sign with the repeated material). We find that many of the generated transcriptions  adhere closely to the AABB form, suggesting that this system is learning about repetition rather than where the repeat tokens occur."_
 
@@ -180,7 +180,7 @@ _Note: Before this project, [Andy Sarroff](https://andysarroff.com) and his team
 
 The another benefit of the DeepHear is that you can manipulate the output via gradients of similarity. 
 
-### 6) [VARIATIONAL RECURRENT AUTO-ENCODERS] (https://arxiv.org/pdf/1412.6581.pdf)
+### 6) [VARIATIONAL RECURRENT AUTO-ENCODERS](https://arxiv.org/pdf/1412.6581.pdf)
 
 Especially, this paper propose new type of Auto-Encoder and show the performance of the model via _music generation_. VRAE combines the strengths of Recurrent Neural Network(RNN) and Stochastic Gradient Variational Bayes(SVGB).
 
@@ -192,10 +192,10 @@ _Given a latent space vector, the decoding part of the trained models can be use
 
 Let's look figures to understand that can latent space capture the musical content. 
 
-![Alt Text](https://docs.google.com/uc?id=)
+![Alt Text](https://docs.google.com/uc?id=1Wl-BS4G2oZD0aVftQiBHB_8SNw5U38i-)
 ##### If latent space is 2-dimensional.
 
-![Alt Text](https://docs.google.com/uc?id=)
+![Alt Text](https://docs.google.com/uc?id=14GfCJmYbfX0bAeaJMKRq9O_cUOfHl7ur)
 ##### If latent space is 20-dimensional. Representation has been done by T-SNE.
 
 For the dataset, they use 8 MIDI file from 80s and 90s games. One-hot encoding piano roll representation has been used, however, they just include the most popular 49 notes from 88 notes. We can listen [the output of the architecture.](http://youtu.be/cu1_uJ9qkHA)
