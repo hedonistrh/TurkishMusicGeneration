@@ -202,4 +202,109 @@ For the dataset, they use 8 MIDI file from 80s and 90s games. One-hot encoding p
 
 ##### You can check [this blogspot](https://lirnli.wordpress.com/2017/09/27/variational-recurrent-neural-network-vrnn-with-pytorch/) for text generation via VRAE.
 
-### 7) Music Generation with Variational Recurrent Autoencoder Supported by History
+### 7) [Music Generation with Variational Recurrent Autoencoder Supported by History](https://arxiv.org/pdf/1705.05458.pdf)
+
+##### You can check the researcher's [blogpost.](https://medium.com/altsoph/pianola-network-a069b95b6f39)
+
+For the dataset, they use 15+ thousand normalized tracks. For the normalization, they applied different techniques like 
+- The median pitch of every track was transposed to the 4th octave.
+- Tracks with exceedingly small entropy were also excluded from the training data.
+
+For the every note, they create concatenated note embedding which include pitch of the note, its octave, length of the note and meta-information.
+
+For the baseline, they created language model.
+
+![Alt Text](https://docs.google.com/uc?id=1f2_GL7I7vUkYBFnbm0rh1iJWxCXHg7iq)
+
+After that, they created VAE with the same input. 
+
+![Alt Text](https://docs.google.com/uc?id=1Ag0Cv3Cr0qqY14H0LEZ6-XN_wFwcDlv_)
+
+They proposed VRASH(Variational Recurrent Autoencoder Supported by History). The difference with VAE, VRASH use previous outputs as an additional input. This is so similar with [VRAE](https://arxiv.org/pdf/1412.6581.pdf)) which is the previous paper. The difference is that VRASH use different representation for input. They seperately encode different informations and create note embedding.
+
+![Alt Text](https://docs.google.com/uc?id=1jFREK5D-IxhWGfVSVgLjt8VyJ2hcnFEH)
+
+For the comparison:
+
+- They use cross-entropy.
+
+![Alt Text](https://docs.google.com/uc?id=1JWEgNJKJrLCqmn_-R0Ob5tDeraAzs1hN)
+
+- Compare the mutual information. 
+
+![Alt Text](https://docs.google.com/uc?id=1prwe-297AYd9HrdRDhypDJzkgsE4Gc-g)
+
+
+Generative models have some problems. 
+- First general problem is that generative models have tendecy to repeat same notes. VRASH and VAE performs better than LM for this problem. - Second general problem is about the macro structure of the generated music. Despite the fact that VAE and VRASH specifically are developed to capture macrostructures of the track they do not always provide distinct structural dynamics that characterizes a number of humanwritten musical tracks. However, VRASH seems to be the right way to go.
+
+
+### 8) [DeepBach: a Steerable Model for Bach Chorales Generation](https://arxiv.org/pdf/1612.01010.pdf)
+
+##### This paper is open source. Please check the [source code.](https://github.com/Ghadjeres/DeepBach)
+
+_"We claim that, after being trained on the chorale harmonizations by Johann Sebastian Bach, our model is capable of generating highly convincing chorales in the style of Bach. DeepBach’s strength comes from the use of pseudo-Gibbs sampling coupled with an adapted representation of musical data."_
+
+_"A key feature is that we are able to constrain the generated chorales in many ways: we can for instance impose the melody, the bass, the rhythm but also the cadences (when the musical phrases end)."_
+
+To represent the data
+
+- **Notes and Voices:** MIDI pitches to encode notes, discretize time with sixteenth notes.
+
+- **Rhythm:** We choose to model rhythm by simply adding a hold symbol “__” coding whether or not the preceding note is held to the list of existing notes.
+
+- **Metadata:** Normally, the music sheets contains more information like beat index, implicit metronome etc. For the DeepBach, researchers take into account the fermata symbol and current key signature. 
+
+- **Chorale:** They represent the chorale as a combination of voices and metadata. 
+
+![Alt Text](https://docs.google.com/uc?id=1Cs_XUtQ3t3Mc_HzRctD7GUSNUw9Qnmsm)
+
+Where the aim is to predict a note knowing the value of its neighboring notes, the subdivision of the beat it is on and the presence of fermatas.
+
+![Alt Text](https://docs.google.com/uc?id=1Syry5HiCCKEhmx-qU1D_e0B-n0US4g7K)
+
+##### The first 4 lines represent voices, the bottom 2 lines represent metadata. This representation is just for 1 voice. For the 4 voice, this architecture is replicated 4 times. 
+
+Aim is to predict a note knowing the value of its neighboring notes, the subdivision of the beat it is on and the presence of fermatas. The advantage with this formulation is that each classifier has to make predictions within a small range of notes whose ranges correspond to the notes within the usual voice ranges. 
+
+As an architecture: 
+- Deep Recurrent Neural Networks 
+    - One summing up past information
+    - Another summing up information coming from the future 
+- A non-recurrent neural network for notes occurring at the same time.
+
+After that, these three outputs are then merged and passed as the input of a fourth neural network whose output is probability.
+
+Generation in dependency networks is performed using the pseudo-Gibbs sampling procedure. The advantage of this method is that we can enforce user defined constraints by tweaking Alg. 1:
+
+![Alt Text](https://docs.google.com/uc?id=1ELpP-WYM1QGaAw5n6nwQNPQmPq2-5avK)
+
+Their choice for the representation is so suitable with this algorithm. If they use piano roll representation, when they want to change of pitch of the value, one needs to change simultaneously a large number of variables (which is exponentially rare) because a long note is represented as the repetition of the same value over many variables. While this is achievable with only one variable change with our representation.
+
+To understand how DeepBach perform, they build discrimination test. Subjects were presented series of only one musical extract together with the binary choice “Bach” or “Computer”. Fig. 5 shows how the votes are distributed depending on the level of musical expertise of the subjects for each model. 
+
+For the comparision, they use Maximum Entropy Model (MaxEnt) and MultiLayer Perceptron (MLP)
+
+_Ps. The Maximum Entropy model is a neural network with no hidden layer._
+
+
+![Alt Text](https://docs.google.com/uc?id=1cvUGp_0TKZKPKLZvb6bNpTXjUoIhZjrv)
+
+
+
+### 9) [Generating Polyphonic Music Using Tied Parallel Networks](http://www.hexahedria.com/files/2017generatingpolyphonic.pdf)
+
+##### You can check [the blogpost](http://www.hexahedria.com/2015/08/03/composing-music-with-recurrent-neural-networks/) which is the preliminary version of this paper.
+
+_"We demonstrate training a probabilistic model of polyphonic music using a set of parallel, tied-weight recurrent networks, inspired by the structure of convolutional neural networks. This model is designed to be invariant to transpositions, but otherwise is intentionally given minimal information about the musical domain, and tasked with discovering patterns present in the source dataset."_
+
+Polyphonic music has more complex nature than monophonic music. Both of them has sequential patterns between timesteps, however, polyphonic has simultaneous notes' harmonic intervals. Also musical structures exhibits transposition invariance. Transposition, in which all notes and chords are shifted into a different key, changes the absolute position of the notes but does not change any of these musical relationships. To capture the structure of chords and intervals in a transposition-invariant way, a neural network architecture would ideally consider relative positions of notes, as opposed to absolute positions.
+
+Recurrent Neural networks are good at capturing of single-dimensional patterns. For the monophonic music, it works, however, for the polyphonic music, RNN can not capture the nature of the music. So that, as I summarized in second paper, some researchers use RBM with RNN to capture harmonical structure of simultaneous notes, however, it is not transposition-invariant. _(the RNN-RBM combines recurrent neural networks (RNNs), which can capture temporal interactions, and restricted Boltzmann machines (RBMs), which model conditional distributions.)_ Convolutional Neural Networks(CNN) are good at detect figures at different position in the picture. So that, if we can combine the invariance nature of CNN with RNN, we can model the polyphonic music better.
+
+_"In the current work, we describe two variants of a recurrent network architecture inspired by convolution that attain transposition-invariance and produce joint probability distributions over a musical sequence. These variations are referred to as Tied Parallel LSTM-NADE (TP-LSTM-NADE) and Biaxial LSTM (BALSTM)."_
+
+RBM's gradient is untractable. So that, researcher replace it with neural autoregressive distribution estimator(NADE), however, both RBM and NADE can not easily capture the relative relationship between inputs. Each transposed representation would have to be learned separately and this is not appropriate for musical structure. Convolutional neural networks address the invariance problem for images by convolving or cross-correlating the input with a set of learned kernels.
+
+
+
