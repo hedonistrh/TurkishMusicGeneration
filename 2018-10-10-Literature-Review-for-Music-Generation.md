@@ -59,7 +59,7 @@ _The goal of the study was to see if LSTM could learn chord structure and melody
 Note that melody information does not reach nodes which are responsible from chords.
 
 
-### 2) (Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription)[http://www-etud.iro.umontreal.ca/~boulanni/ICML2012.pdf]
+### 2) [Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription][(http://www-etud.iro.umontreal.ca/~boulanni/ICML2012.pdf)
 
 ##### This project is open source. You can check their [source code](https://github.com/boulanni/theano-hf) and [tutorial.](http://deeplearning.net/tutorial/rnnrbm.html) Also you can check [thesis of Boulanger-Lewandowski](http://www-etud.iro.umontreal.ca/~boulanni/NicolasBoulangerLewandowski_thesis.pdf) for more information.
 
@@ -236,7 +236,9 @@ For the comparison:
 
 
 Generative models have some problems. 
-- First general problem is that generative models have tendecy to repeat same notes. VRASH and VAE performs better than LM for this problem. - Second general problem is about the macro structure of the generated music. Despite the fact that VAE and VRASH specifically are developed to capture macrostructures of the track they do not always provide distinct structural dynamics that characterizes a number of humanwritten musical tracks. However, VRASH seems to be the right way to go.
+- First general problem is that generative models have tendecy to repeat same notes. VRASH and VAE performs better than LM for this problem.
+ 
+- Second general problem is about the macro structure of the generated music. Despite the fact that VAE and VRASH specifically are developed to capture macrostructures of the track they do not always provide distinct structural dynamics that characterizes a number of humanwritten musical tracks. However, VRASH seems to be the right way to go.
 
 
 ### 8) [DeepBach: a Steerable Model for Bach Chorales Generation](https://arxiv.org/pdf/1612.01010.pdf)
@@ -291,7 +293,6 @@ _Ps. The Maximum Entropy model is a neural network with no hidden layer._
 ![Alt Text](https://docs.google.com/uc?id=1cvUGp_0TKZKPKLZvb6bNpTXjUoIhZjrv)
 
 
-
 ### 9) [Generating Polyphonic Music Using Tied Parallel Networks](http://www.hexahedria.com/files/2017generatingpolyphonic.pdf)
 
 ##### You can check [the blogpost](http://www.hexahedria.com/2015/08/03/composing-music-with-recurrent-neural-networks/) which is the preliminary version of this paper.
@@ -306,5 +307,79 @@ _"In the current work, we describe two variants of a recurrent network architect
 
 RBM's gradient is untractable. So that, researcher replace it with neural autoregressive distribution estimator(NADE), however, both RBM and NADE can not easily capture the relative relationship between inputs. Each transposed representation would have to be learned separately and this is not appropriate for musical structure. Convolutional neural networks address the invariance problem for images by convolving or cross-correlating the input with a set of learned kernels.
 
+## ADD MORE INFO
+
+### 10) [Combining LSTM and Feed Forward Neural Networks for Conditional Rhythm Composition](https://users.ionio.gr/~karydis/my_papers/MKPKarydisK2017%20-%20Combining%20LSTM%20and%20Feed%20Forward%20Neural%20Networks%20for%20Conditional%20Rhythm%20Composition.pdf)
+
+As we know from the previous papers, LSTM is good at learning sequences, however, we can not add constraint to get conditional output via LSTM such as metrical structure or a given bass line. At that paper, researcher combine the LSTM and feed forward (conditinal) layers to compose long drum sequences based on external information, i.e. metric and bass information.
+
+_"In this paper we introduce an innovative architecture for creating drum sequences by taking into account the drum generation of previous time steps along with the current metrical information and the bass voice leading."_
+
+Let's look the architecture of the system.
+
+- an LSTM network, corresponds to the drum representation.
+    - Representation is based on binary. It represent snare, any tom event, open or closed hi-hats, and crash or ride cymbals.  For example, 10010 and 01010 represents a time step with simultaneous playing of kick and hi-hat followed by simultaneous playing of snare and hi-hat.
+
+- the feedforward network, represents information of the bass movement, and the metrical structure information.
+    - Moving on to the bass, we use information regarding the voice leading (VL) of bass. The first digit of this vector declares the existence of a bass or rest event, while the three remaining digits show the calculation of the bass voice leading in the following 3 different cases: [000] steady VL, [010] upward VL and [001] downward VL.
+    - In addition to the bass information we included a 1x3 binary vector representing metrical information for each time step. This information ensures that the network is aware of the beat structure at any given point. 
 
 
+![Alt Text](https://docs.google.com/uc?id=1gWlBMOEz0LgvqyM3fezJ3usAFm03ETco)
+
+_"The proposed architecture consists of 2 separate modules for predicting the next drum event. An LSTM module learns sequences of consecutive drum events, while a feedforward layer takes information on the metrical structure and bass movement. The output of the network is the prediction of the next drum event."_
+
+To understand the effect of feedforwards (conditional) layer, they build some experiment.
+
+## ADD MORE INFO ABOUT EXPERIMENT
+
+_"Additionally, the preservation of a metrical structure in simple LSTM systems is only dependent on their ability to learn the metric structure these are trained on. The conditional layer enables the LSTM networks to simulate humans in both tasks: respond to changes in other instruments (e.g. bass) and ”tune-in” to certain metrical structures."_
+
+**Main importance of this method is that you can add constraint to generated-composed music which is based on LSTM via feedforward(conditional) layer.**
+
+### 11) [C-RNN-GAN: Continuous recurrent neural networks with adversarial training](https://arxiv.org/pdf/1611.09904.pdf)
+
+##### This project is open-source. Please check their [source code.](https://github.com/olofmogren/c-rnn-gan)
+
+##### To understand Generative Adversial Network (GAN), you can check [this blogpost.](https://skymind.ai/wiki/generative-adversarial-network-gan)
+
+_"Our work represents tones using real valued continuous quadruplets of frequency, length, intensity, and timing. This allows us to use standard backpropagation to train the whole model end-to-end."_
+
+At this paper, Olof Mogren propose the model which is a recurrent neural network with adversarial training. At the adversial training, we have 2 different RNN:
+
+- Generator (G): Tries to generate the data that is indistinguishable from real data
+    - The input to each cell in G is a random vector, concatenated with the output of previous cell.
+- Discriminator (D): Tries to identify the data is generated or real
+    - The discriminator consists of a bidirectional recurrent net, allowing it to take context in both directions
+    into account for its decisions.
+
+Both of them tries to achieve their goal. As we see, their goals' are completely opposite. So that, this is zero-sum game and when one improve, other one have to improve own skills. 
+
+![Alt Text](https://docs.google.com/uc?id=1FSSM7IjpJa-UGTEeMiuvYJrsby9RDrxG)
+
+To represent the musical data, they use 4 real valued scalars at each data point:
+- Tone length
+- Frequency
+- Intensity
+- Time
+
+With this modeling, we can represent polyphonous chorus. Each tone is then represented with its own quadruplet of values as described above.
+
+To improve the results:
+
+- **Employ feature matching:** Encourage greater variance in the Generator. With that, we can avoid overfitting. "_Normally, the objective for the generator is to maximize the error that the discriminator makes, but with feature matching, the objective is instead to produce an internal representation at some level in the discriminator that matches that of real data."_
+
+- **Freezing:** Which means stopping the updates of D whenever its training loss is less than 70% of the training loss of G. Because, at the training, they noticed that Discriminator can become too strong, resulting in a gradient that cannot be used to improve Generator. 
+
+Also, they proposed modified version of C-RNN-GAN, at that version each LSTM cell can give output up to 3 tone. Name of this version is C-RNN-GAN-3. Benefit of this modification:
+
+_"The generated music is polyphonous, but in the polyphony score in our experimental evaluation, measuring how often two tones are played at exactly the same time, C-RNN-GAN scored low. Allowing each LSTM cell to output up to three tones at the same time resulted in a model that scored much better with polyphony."_
+
+Now, let's look the evaluation of baseline, C-RNN-GAN and C-RNN-GAN-3.
+
+##### "Baseline: Our baseline is a recurrent network similar to our generator, but trained entirely to predict the next tone event at each point in the recurrence."
+
+
+![Alt Text](https://docs.google.com/uc?id=1WxxzoatGb0byp0SBeg_eAjHtVyfMkJc9)
+
+##### For more info about the metrics and explanations, please check the [original paper.](https://arxiv.org/pdf/1611.09904.pdf)
