@@ -59,7 +59,7 @@ _The goal of the study was to see if LSTM could learn chord structure and melody
 Note that melody information does not reach nodes which are responsible from chords.
 
 
-### 2) [Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription][(http://www-etud.iro.umontreal.ca/~boulanni/ICML2012.pdf)
+### 2) [Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription](http://www-etud.iro.umontreal.ca/~boulanni/ICML2012.pdf)
 
 ##### This project is open source. You can check their [source code](https://github.com/boulanni/theano-hf) and [tutorial.](http://deeplearning.net/tutorial/rnnrbm.html) Also you can check [thesis of Boulanger-Lewandowski](http://www-etud.iro.umontreal.ca/~boulanni/NicolasBoulangerLewandowski_thesis.pdf) for more information.
 
@@ -383,3 +383,110 @@ Now, let's look the evaluation of baseline, C-RNN-GAN and C-RNN-GAN-3.
 ![Alt Text](https://docs.google.com/uc?id=1WxxzoatGb0byp0SBeg_eAjHtVyfMkJc9)
 
 ##### For more info about the metrics and explanations, please check the [original paper.](https://arxiv.org/pdf/1611.09904.pdf)
+
+### 12) [MIDINET: A CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORK FOR SYMBOLIC-DOMAIN MUSIC GENERATION](https://arxiv.org/pdf/1703.10847.pdf)
+
+##### This paper is based on open source code. Please check [their repo.](https://github.com/RichardYang40148/MidiNet)
+
+##### [Listen samples.](https://richardyang40148.github.io/TheBlog/midinet_arxiv_demo.html)
+
+Their method is combination of CNN and GAN. 
+
+- They use CNN+GAN to generate melody via one bar after another bar in symbolic domain as MIDI.
+- With GAN, they can control-manipulate the output.
+
+In this method, generation is successive. They generate one bar after another one. So that, they can use 2D matrix to represent notes over time. With that, they can generate melody in MIDI format.
+
+Their GAN architecture consists of 3 different CNN: 
+- Generator CNN
+    - Takes random noise as an input and transform into 2-D score like representation.
+- Discriminator CNN
+    - Predicts whether it is from a real or a generated MIDI.
+- Conditioner CNN
+    - We can not impose our conditions with just Generator and Discriminator. With Conditioner, we can use previous bars as a condition of generation of the present bar. With this CNN, model can "look back" without RNN and can generate arbitrary number of bars. Also, thanks to Conditioner CNN, we can generate the music based on the determined chord progression or based on the few starting notes.
+
+![Alt Text](https://docs.google.com/uc?id=161Kz4MqWh3VEKOttvBhnOAD9ZwC5-I9F)
+
+Comparision of the MIDINET with other generation methods
+
+![Alt Text](https://docs.google.com/uc?id=1d_PfbdeEKp67CmmrHYA24uWs9NBvgaSr)
+
+Let's dive into the details of methods. :)
+
+- **For representation**, they use one-hot piano roll based representation. They omit the velocity and system can not distinguish one long note and two short note repeating notes. 
+
+- **Generator and Discriminator CNN** is based on DCGAN (Deep Convolutional Generative Adversial Network). 
+    - Generator tries to generate the data that is indistinguishable from real data. Thanks to _transposed convolutional layers_, generator can upsamples smaller vectors/matrices into larger one.
+    - Discriminator tries to identify the data is generated or real
+
+    For the training, they also employ feature matching like C-RNN-GAN method.
+
+- To condition the generation, available prior knowledge can impose via vector which encode the information. After the reshape to appropriate format, we can add this vector into different layers of Generator or Discriminator. This is 1D Conditions. (You can check Figure 1) With this type of condition, model can generate current note based on previous notes. We can directly add such a conditional matrix to the input layer of D to influence all the subsequent layers. For the 2D Conditions, we need to shape 2D conditional matrix into different smaller appropriate formats as you can see from figure 1.  Conditioner and Generator use exactly same shape filters. Thus, we can add conditional info into Generator via vectors. So that, we can influence the generation.
+
+To control the creativity
+
+- Capitalize the effect of feature matching. With that, generated music will be more similar to real existing music.
+
+- By restricting the conditioning by inserting the conditioning data only in the intermediate convolution layers of G.
+
+They use 1022 MIDI tabs of pop music from [TheoryTab.](https://www.hooktheory.com/theorytab) These files include both melody and underlying chord progression.
+
+- For chords, they use 13 dimensional representation (last dimension represent the key) instead of 24 dimensional one hot vector.
+
+![Alt Text](https://docs.google.com/uc?id=1B2UEsR3C90r-TMFB_f7O7dpNxCS1Ep0b)
+
+-  _"Moreover, for simplicity, we shifted all the melodies into two octaves, from C4 to B5, and neglected the velocity of the note events."_
+
+### 13) [A Unit Selection Methodology for Music Generation Using Deep Neural Networks](https://arxiv.org/pdf/1612.03789.pdf)
+
+At that paper, researcher use _concatenation_ to generate music which process is based on _unit selection_. This idea comes from Text-To-Speech (TTS) systems. At that system, small audio (speech) units are concenated to get long natural-like speech. When apply this idea directly to music, we have some challenges.
+
+- Output is restricted to what is available in the unit library. 
+- Concatenation process can generate _jumps_ or _shifts_ and it can cause to unpleasent output.
+
+The method is based on 2 step.
+- Unit selection based reconstruction for Deep-AutoEncoder
+- Concenate the units based on ranks.
+    - Semantic Relevance Score which is based on difference of two units in embedding space which is created by deep structured semantic model.(DSSM)
+    - Concatenation Costs which is determined by LSTM which evaluate the likelihood of two consecutive units.
+
+**Reconstruction Using Unit Selection**
+
+They create 80 million unique measures to augment their dataset which contains 170.000 unique measures. For the augmentation, they manipulate pitches via linear shifts(transpositions) and alterations of the intervals between notes. After the augmentation, they represent the data via Bag-of-Words (BOW) like feature vector. This results in 9,675 actual features (parameters). The feature vector include counts of note tuples, counts of pitch class etc. Each unit is described (indexed) as a 9,675 size feature vector.
+
+![Alt Text](https://docs.google.com/uc?id=1HBuRYPZ26shjRfoOaDDL8sjMQ8Ib7yOj)
+
+Reconstruction has 2 steps:
+- **feature vector reconstruction**: performed by _decoder_
+- **music reconstruction**: the process of selecting a unit that best represents the initial input musical unit
+    - Output of the decoder may not be in the library. So that, we need to choose the unit which is the most similar from the library.
+
+Thanks to autoencoder, we have embeddings and we will use these for the generation.
+
+**Generation using Unit Selection**
+
+![Alt Text](https://docs.google.com/uc?id=1tYMxwIyq7h0PncFcxIu03on0yRyWGPnF)
+
+- For semantic relevance -> DDSM based BOW-like features
+- Concatenation cost -> LSTM which evaluate the likelihood of two consecutive unit
+
+With DDSM, we can measure the similarity between units, however, it can not provide which one should come first. 
+
+_"In an attempt to ensure that the music remains valid after combining new units we employ a concatenation cost to describe the quality of the join between two units. This cost requires sequential information at a more fine grained level than the BOW-DSSM can provide."_ To learn sequential information (context), LSTM is used. 
+
+**Ranking process** includes 4 steps:
+- Rank all units according to similarity (semantic relevance) at the embedding space according to input seed
+- Take top %5 of them and re-rank according to concatenation cost with the input
+- Re-rank the same top 5% based on their combined semantic relevance and concatenation ranks.
+- Select the unit with the highest combined rank.
+
+**Evaluate the Model**
+
+We can evaluate the model using a ranking test. The task is that predict the next unit given input which is not in the training set. For the prediction, 50 candidates (1 ground truth, 49 randomly selected unit) are ranked. After that, accuracy is calculated. 
+
+![Alt Text](https://docs.google.com/uc?id=1Zytg0aEPBrYM7lxWT03zwVPl1Ao8YN69)
+
+The main issue with this evaluation, it can not evaluate likealibity of the music. Because, one of the randomly selected unit which is selected as the best from the ranking system can be more appropriate as a next unit for a give unit. So that, subjective evaluation has been done.
+
+![Alt Text](https://docs.google.com/uc?id=1KIPBCKiOM1SlzHaMcAzdAJl8hiMaXsOZ)
+
