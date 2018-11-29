@@ -495,6 +495,8 @@ The main issue with this evaluation, it can not evaluate likealibity of the musi
 
 ### 14) [TUNING RECURRENT NEURAL NETWORKS WITH REINFORCEMENT LEARNING](https://affect.media.mit.edu/pdfs/17.Jaques-Tuning.pdf)
 
+##### To listen samples, you can check [this drive folder.](https://drive.google.com/drive/folders/0BycMAUU0mKhwN3BEMENCMXN2cFE)
+
 The objective of this method is that control the generation of melodies with user constraints. 
 
 For the reward part of the Reinforcement Learning (RL), they train the LSTM which called as Note-RNN. 
@@ -505,15 +507,6 @@ For this question, they propose _RL Tuner_. They tries to impose structure to RN
 
 ###### Ps. This paper has made different contributions for the ML-DL area, however, most of them is not direclty related with music generation. So that, I will skip these parts. If you are curious especially for the RL, please read [the paper](https://affect.media.mit.edu/pdfs/17.Jaques-Tuning.pdf).
  
- Given a trained Note RNN, the goal is to teach it concepts about music theory, while still maintaining
-the information about typical melodies originally learned from data. To accomplish this task, we
-propose RL Tuner, a novel sequence training method incorporating RL. We use an LSTM trained on
-data (the Note RNN) to supply the initial weights for three networks in RL Tuner: the Q-network and
-Target Q-network in the DQN algorithm as described in Section 2.1, and a Reward RNN. Therefore,
-the Q-network is a recurrent LSTM model, with architecture identical to that of the original Note
-RNN. The Reward RNN is used to supply part of the reward value used to train the model, and is
-held fixed during training
-
 
 The goal is that combine:
 - Concepts from music theory 
@@ -532,3 +525,9 @@ To accomplish this task, they propose _RL Tuner_ which consists of 2 RNN and 2 d
 – _adherence to user-defined constraints (in practice according to some musical theory rules, e.g., consistency with current tonality, avoidance of excessive repetitions etc.), by measuring how well they are fulfilled._"
 
 ![Alt Text](https://docs.google.com/uc?id=16vQPq1sIqLGn3l5_497SbOl37J9ohsUr)
+
+**Experiments**
+
+![Alt Text](https://docs.google.com/uc?id=1EQDE8U2MGJ-vCLikMie5RBDISsUmqVNL)
+![Alt Text](https://docs.google.com/uc?id=1KwEXzE-JoAdDXUEiuftyzxdnab3353t3)
+![Alt Text](https://docs.google.com/uc?id=1B7Mh0KIoyt-JYHiep9bHVjN5bvafuEzB)
