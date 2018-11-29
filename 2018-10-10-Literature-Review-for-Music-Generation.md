@@ -331,7 +331,10 @@ _"The proposed architecture consists of 2 separate modules for predicting the ne
 
 To understand the effect of feedforwards (conditional) layer, they build some experiment.
 
-## ADD MORE INFO ABOUT EXPERIMENT
+![Alt Text](https://docs.google.com/uc?id=1kUI_QnF-nqc0B5lFelhI4p9LFFSZIAaS)
+
+![Alt Text](https://docs.google.com/uc?id=1102p78tM1Ks2EgCtx2aLpaEhVzOnsSWC)
+
 
 _"Additionally, the preservation of a metrical structure in simple LSTM systems is only dependent on their ability to learn the metric structure these are trained on. The conditional layer enables the LSTM networks to simulate humans in both tasks: respond to changes in other instruments (e.g. bass) and ”tune-in” to certain metrical structures."_
 
@@ -490,3 +493,42 @@ The main issue with this evaluation, it can not evaluate likealibity of the musi
 
 ![Alt Text](https://docs.google.com/uc?id=1KIPBCKiOM1SlzHaMcAzdAJl8hiMaXsOZ)
 
+### 14) [TUNING RECURRENT NEURAL NETWORKS WITH REINFORCEMENT LEARNING](https://affect.media.mit.edu/pdfs/17.Jaques-Tuning.pdf)
+
+The objective of this method is that control the generation of melodies with user constraints. 
+
+For the reward part of the Reinforcement Learning (RL), they train the LSTM which called as Note-RNN. 
+
+_"Our research question is therefore whether such music-theory-based constraints can be learned by an RNN, while still allowing it to maintain note probabilities learned from data."_
+
+For this question, they propose _RL Tuner_. They tries to impose structure to RNN via Reinforcement Learning. The reward function is combination of task-related proporties (which can be user constraint) and likelihood function from pre-traines LSTM which is trained on a large corpus of songs to predict the next note in a musical sequence. (which learns the context) Thus, when we preserve the context thanks to RNN, we can impose some constraint via RL. So that, there is trade-off between influence of data (context) and heuristic reward (user constraint).
+
+###### Ps. This paper has made different contributions for the ML-DL area, however, most of them is not direclty related with music generation. So that, I will skip these parts. If you are curious especially for the RL, please read [the paper](https://affect.media.mit.edu/pdfs/17.Jaques-Tuning.pdf).
+ 
+ Given a trained Note RNN, the goal is to teach it concepts about music theory, while still maintaining
+the information about typical melodies originally learned from data. To accomplish this task, we
+propose RL Tuner, a novel sequence training method incorporating RL. We use an LSTM trained on
+data (the Note RNN) to supply the initial weights for three networks in RL Tuner: the Q-network and
+Target Q-network in the DQN algorithm as described in Section 2.1, and a Reward RNN. Therefore,
+the Q-network is a recurrent LSTM model, with architecture identical to that of the original Note
+RNN. The Reward RNN is used to supply part of the reward value used to train the model, and is
+held fixed during training
+
+
+The goal is that combine:
+- Concepts from music theory 
+- Melodic structure which is learned from data via LSTM.
+
+To accomplish this task, they propose _RL Tuner_ which consists of 2 RNN and 2 deep Q network.
+- **Note RNN**: To supply the initial weights which is learned from data via LSTM for another parts of the system
+- **Reward RNN**: Fixed copy of Note RNN. Is used to supply part of the reward value used to train the model, and is held fixed during training.
+- **Q Network**:  Learn to select next note (next action a) from the generated (partial) melody so far (current state a). 
+- **Target Q Network**: Which estimates the value of the gain and which has been initialized from what the Note RNN has learnt.
+
+"_The Q Network’s reward r combines two measures:_
+
+– _adherence to what has been learnt, by measuring the similarity with the note predicted by the Reward RNN recurrent network;_
+
+– _adherence to user-defined constraints (in practice according to some musical theory rules, e.g., consistency with current tonality, avoidance of excessive repetitions etc.), by measuring how well they are fulfilled._"
+
+![Alt Text](https://docs.google.com/uc?id=16vQPq1sIqLGn3l5_497SbOl37J9ohsUr)
