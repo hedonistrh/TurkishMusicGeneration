@@ -48,4 +48,17 @@ To get same environment and reproduce results easily, we are using [Conda](https
         source dectivate 
     ```
 
+- How to update our environment with new(or updated) .yml file ([source1](https://stackoverflow.com/questions/42352841/how-to-update-an-existing-conda-environment-with-a-yml-file), [source2](https://stackoverflow.com/questions/45510430/install-packages-into-existing-conda-environment-specified-in-environment-yml)):
+    ``` sh
+    source activate turkishMusicGen
+    conda env update -f=environment.yml
+    ``` 
+
+    or
+
+    ``` sh
+    conda env update --file environment.yml
+    ``` 
+
+    
 [For more info](https://towardsdatascience.com/environment-management-with-conda-python-2-3-b9961a8a5097).
