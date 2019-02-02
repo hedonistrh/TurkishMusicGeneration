@@ -35,7 +35,7 @@ To get same environment and reproduce results easily, we are using [Conda](https
 
 - To use same conda environment:
     ``` sh
-        conda env create --name turkishMusicGen --file environment.yml
+    conda env create -f environment.yml
     ```
 
 - To activate your environment:
