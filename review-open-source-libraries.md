@@ -168,4 +168,57 @@ There are different ways to reproduce their works.
     --mode=train \
     --examples_path=/tmp/music_vae/mel_train_examples.tfrecord
     ```
-   
+
+3)[C-RNN-GAN](https://github.com/olofmogren/c-rnn-gan)
+
+##### [Summary of the project](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#11-c-rnn-gan-continuous-recurrent-neural-networks-with-adversarial-training)
+
+At this paper, Olof Mogren propose the model which is a recurrent neural network with adversarial training. At the adversial training, we have 2 different RNN:
+
+- Generator (G): Tries to generate the data that is indistinguishable from real data
+    - The input to each cell in G is a random vector, concatenated with the output of previous cell.
+- Discriminator (D): Tries to identify the data is generated or real
+    - The discriminator consists of a bidirectional recurrent net, allowing it to take context in both directions into account for its decisions.
+
+_"Our work represents tones using real valued continuous quadruplets of frequency, length, intensity, and timing. This allows us to use standard backpropagation to train the whole model end-to-end."_
+
+![Alt Text](https://docs.google.com/uc?id=1FSSM7IjpJa-UGTEeMiuvYJrsby9RDrxG)
+
+- Their implementation is based on Tensorflow and python-midi libraries. They updated it 2 months ago and it should work without any problem. 
+- They use .mid file as input.
+
+To run the project
+```sh
+python rnn_gan.py --datadir "relative-path-to-data" --traindir "path-to-generated-output" --feed_previous --feature_matching --bidirectional_d --learning_rate 0.1 --pretraining_epochs 6
+```
+
+We can try this method with directly our .mid files. 
+
+4)[MIDI-NET](https://github.com/RichardYang40148/MidiNet/tree/master/v1) 
+
+
+##### [Summary of the project](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#12-midinet-a-convolutional-generative-adversarial-network-for-symbolic-domain-music-generation)
+
+Their method is combination of CNN and GAN.
+
+![Alt Text](https://docs.google.com/uc?id=161Kz4MqWh3VEKOttvBhnOAD9ZwC5-I9F)
+
+They use CNN+GAN to generate melody via one bar after another bar in symbolic domain as MIDI.
+With GAN, they can control-manipulate the output.
+In this method, generation is successive. They generate one bar after another one. So that, they can use 2D matrix to represent notes over time. With that, they can generate melody in MIDI format.
+
+One of main advantages of this method over C-RNN-GAN is that we can control the generated outputs by inserting the conditioning data only in the intermediate convolution layers of G.
+
+![Alt Text](https://docs.google.com/uc?id=1d_PfbdeEKp67CmmrHYA24uWs9NBvgaSr)
+
+Authors directly provide [_Tensorflow_ implementation](https://github.com/RichardYang40148/MidiNet/tree/master/v1) of the project. Also, there is [_PyTorch_ implementation](https://github.com/annahung31/MidiNet-by-pytorch) of this project. I would like go with it.
+
+- They use .xml as input format and convert into one-hot piano roll based representation. They omit the velocity and system can not distinguish one long note and two short note repeating notes.
+
+- Firstly, we need to prepare our dataset.
+  - Run [_get_data.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/get_data.py) to get melody and chord matrix from xml.
+  - Run [_get_train_and_test_data.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/get_train_and_test_data.py) to seperate the melody data into training set and testing set.
+- Now, we can train the system and generate the output.
+  - Make sure you have toolkits in the [_requirement.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/requirement.py)
+  - Run [_main.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/main.py) , is_train = 1 for training, is_draw = 1 for drawing loss, is_sample = 1 for generating music after finishing training.
+  - If you would like to turn the output into real midi for listening. Run [_demo.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/demo.py)
