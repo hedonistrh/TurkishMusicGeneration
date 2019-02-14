@@ -222,3 +222,9 @@ Authors directly provide [_Tensorflow_ implementation](https://github.com/Richar
   - Make sure you have toolkits in the [_requirement.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/requirement.py)
   - Run [_main.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/main.py) , is_train = 1 for training, is_draw = 1 for drawing loss, is_sample = 1 for generating music after finishing training.
   - If you would like to turn the output into real midi for listening. Run [_demo.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/demo.py)
+
+------------
+
+**OUR EXPERIMENTS**
+
+I have started with _Magenta_ and their RNN model. _Conda_ option does not work for me. So that, I am trying to use _Docker_ option. I have not used _Docker_ before, so that, I am trying to become familiar.
