@@ -3,6 +3,8 @@ In this summary, I would like to list evaluation metrics of _Music Generation_ p
 1) **Note Prediction**
    
    Idea comes from [Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#2-modeling-temporal-dependencies-in-high-dimensional-sequences-application-to-polyphonic-music-generation-and-transcription) 
+   
+    _Ps. I really do not understand this method. Maybe, we can skip this one._
 
 2) **Distribution of Pitches**
    
@@ -61,6 +63,33 @@ Note that, 9-10-11 comes from [C-RNN-GAN](https://github.com/hedonistrh/TurkishM
 
         Idea comes from [CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORKS WITH BINARY NEURONS FOR POLYPHONIC MUSIC GENERATION](https://salu133445.github.io/bmusegan/pdf/bmusegan-ismir2018-paper.pdf) Qualified note rate (QN) computes the ratio of the number of the qualified notes (notes no shorter than three time steps, i.e., a 32th note) to the total number of notes. Low QN implies overly-fragmented music.
 
+13) **Average pitch interval (PI)**
+    
+    Average value of the
+    interval between two consecutive pitches in semitones.
+    The output is a scalar for each sample.
+
+14) **Note Count**
+    
+    The number of used notes. As
+    opposed to the pitch count, the note count does not
+    contain pitch information but is a rhythm-related
+    feature. The output is a scalar for each sample.
+
+15) **Average inter-onset-interval (IOI)**
+
+    To calculate the
+    inter-onset-interval in the symbolic music domain,
+    we find the time between two consecutive notes. The
+    output is a scalar in seconds for each sample.
+
+16) **Pitch range (PR)**
+    
+    The pitch range is calculated by
+    subtraction of the highest and lowest used pitch in
+    semitones. The output is a scalar for each sample
+
+
 Now, lets look some metrics from [TUNING RECURRENT NEURAL NETWORKS WITH REINFORCEMENT LEARNING](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#14-tuning-recurrent-neural-networks-with-reinforcement-learning) These are based on music theory rules.
 
 - **Notes Excessively Repeated**
@@ -81,3 +110,8 @@ In our first meeting, we also discussed following metrics:
 - Usul Classification
 - User studies
 - Note Distribution of the first section, second section etc.
+
+-----------
+TO-DO
+- Read [On the evaluation of generative models in music](http://www.musicinformatics.gatech.edu/wp-content_nondefault/uploads/2018/11/postprint.pdf)
+- Understand mutual information.
