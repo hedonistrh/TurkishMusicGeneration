@@ -107,7 +107,21 @@ Now, lets look some metrics from [TUNING RECURRENT NEURAL NETWORKS WITH REINFORC
 
 
 In our first meeting, we also discussed following metrics:
-- Makam Classification
+- Makam Classification 
+  - For this one, we can use _T-SNE_ and _UMAP_ as unsupervised classification. For my graduation project, we have tried it.
+    - **Method**: The first feature we came up with was the logarithm of frequency distance between decision note and every other note matrix for each piece. We accepted decision note of a piece as the very last note of each piece. After that, since each song included a variety of notes of different bemol and diez degrees, we created a dictionary for each variation of note in specific octave with specific bemol or diez degree. And to create the resulting matrix, we calculated the Euclidean metric distance between each note and decision note to form the draft of our first feature set. And afterward, we transformed the distance matrix for each song into a fixed sized distance matrix which was of the same format for each song. The resulting matrix was the first feature set of our feature matrix.
+  
+        As a second feature, we formed note frequency histograms for each song. And bins of these frequency histograms were the second feature set of our feature matrix.
+
+        Lastly, we created a one-hot matrix for the type of the makam song. Each song in different makam was written with a different method and by using the information of the song, we extracted the method it was written in. Afterward, for each method, we used a different feature set to represent the song altogether with previous feature sets.
+
+        After these transformations, we have applied our unsupervised methods for makam classification. We have also method and form, however, according to experts of Turkish Makam Music makam is the most important classifier for the emotion.
+
+    - **Results**
+    ![Alt Text](https://docs.google.com/uc?id=0B-6ztEhriyaAaFZ0UWFpTTRiRGZ5YnhhVFE1NzRsbU54V0FJ)
+    ![Alt Text](https://docs.google.com/uc?id=0B-6ztEhriyaAdHVzRC1aeXpjVEhocFVmbFBycXNadzVBMnJn)
+
+
 - Usul Classification
 - User studies
 - Note Distribution of the first section, second section etc.
