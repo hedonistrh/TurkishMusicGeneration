@@ -1,42 +1,43 @@
+### Review of Evaluation Metrics
+
 In this summary, I would like to list evaluation metrics of _Music Generation_ papers and their summaries.
 
-1) **Note Prediction**
-   
-   Idea comes from [Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#2-modeling-temporal-dependencies-in-high-dimensional-sequences-application-to-polyphonic-music-generation-and-transcription) 
-   
-    _Ps. I really do not understand this method. Maybe, we can skip this one._
-
-2) **Distribution of Pitches**
+1) **Distribution of Pitches**
    
    Idea comes from _Folk-RNN_ paper. They compare distribution of pitches of datasets and generated outputs. I think, we can easily implement this metric. _(This is **unary** feature.)_
 
-3) **Distribution of Number of Tokens**
+2) **Distribution of Number of Tokens**
    
     Idea comes from _Folk-RNN_ paper. They compare number of tokens in a song (how many token we have until the token which represent end of the sequence) from dataset and generated outputs. In our case, for example, **-1** in _Koma53_ represent end of the sequence. Thus, we can easily implement this metric.
 
     ![Alt Text](https://docs.google.com/uc?id=1JhQYSYsLzZRtejPY3BvwpASiXohbyodw)
 
-4) **Each section will end with a resolution**
+3) **Each section will end with a resolution**
    
     When researcher checks the output of the _Folk-Rnn_, they realize that each section will end with a resolution. We can use this type of **spesific** metric for our case. 
 
-5) **Transition Matrix of Pitch and Duration**
+4) **Transition Matrix of Pitch and Duration**
    
     The idea comes from [Algorithmic Composition of Melodies with Deep Recurrent Neural Networks](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#4-algorithmic-composition-of-melodies-with-deep-recurrent-neural-networks), they compare the transition matrix of _pitch_ and _duration_. We can easily implement it and compare. _(This is **bi-gram** feature.)_
 
     ![Alt Text](https://docs.google.com/uc?id=1PzHbnqOvvSWcuZg91mdkr426R-MYlG2U)
 
-6) **Conservation of Metric Structure**
+5) **Conservation of Metric Structure**
    
     Idea comes from [Algorithmic Composition of Melodies with Deep Recurrent Neural Networks](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#4-algorithmic-composition-of-melodies-with-deep-recurrent-neural-networks), they use _Irish Music_ as dataset and realized that system learns that from a rhythmical point of view, it is interesting to notice that, even though the model had no notion of bars implemented, the metric structure was preserved in the generated continuations.
 
-7) **Mutual Information with Time**
+6) **Mutual Information with Time**
    
     I saw this idea at [Music Generation with Variational Recurrent Autoencoder Supported by History](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#7-music-generation-with-variational-recurrent-autoencoder-supported-by-history). Main source of this metric is [Critical Behavior from Deep Dynamics: A Hidden Dimension in Natural Language](https://cbmm.mit.edu/sites/default/files/publications/1606.06737.pdf)
 
-    #### Add info about that
+    * **Introduction of the paper:** _We show that in many data sequences — from texts in different languages to melodies and genomes — the mutual information between two symbols decays roughly like a power law with the number of symbols in between the two. In contrast, we prove that Markov hidden Markov processes generically exhibit exponential decay in their mutual information, which explains why natural languages are poorly approximated by Markov processes. We present a broad class of models that naturally reproduce this critical behavior._
+    ![Alt Text](https://docs.google.com/uc?id=1WFFHMJvo38CIluiC8B4b7j42N7JUfcPC)
 
-8) **Cross Entropy**
+    * [This stackoverflow question](https://stats.stackexchange.com/questions/241432/calculating-mutual-information-over-distance) can be helpful.
+
+    * Ps. Mutual information is a quantity that measures a relationship between two random variables that are sampled simultaneously. In particular, it measures how much information is communicated, on average, in one random variable about another
+
+7) **Cross Entropy**
    
    Idea comes from [Music Generation with Variational Recurrent Autoencoder Supported by History](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#7-music-generation-with-variational-recurrent-autoencoder-supported-by-history) They compare _cross entropy of the architestures near saturation point_
 
@@ -114,4 +115,3 @@ In our first meeting, we also discussed following metrics:
 -----------
 TO-DO
 - Read [On the evaluation of generative models in music](http://www.musicinformatics.gatech.edu/wp-content_nondefault/uploads/2018/11/postprint.pdf)
-- Understand mutual information.
