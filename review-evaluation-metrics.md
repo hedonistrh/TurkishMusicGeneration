@@ -35,6 +35,8 @@ In this summary, I would like to list evaluation metrics of _Music Generation_ p
 
     * [This stackoverflow question](https://stats.stackexchange.com/questions/241432/calculating-mutual-information-over-distance) can be helpful.
 
+    * We can use [this library](https://github.com/dit/dit) to compute _Mutual Information._
+
     * Ps. Mutual information is a quantity that measures a relationship between two random variables that are sampled simultaneously. In particular, it measures how much information is communicated, on average, in one random variable about another
 
 7) **Cross Entropy**
