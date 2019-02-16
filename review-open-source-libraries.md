@@ -211,7 +211,9 @@ One of main advantages of this method over C-RNN-GAN is that we can control the 
 
 ![Alt Text](https://docs.google.com/uc?id=1d_PfbdeEKp67CmmrHYA24uWs9NBvgaSr)
 
-Authors directly provide [_Tensorflow_ implementation](https://github.com/RichardYang40148/MidiNet/tree/master/v1) of the project. Also, there is [_PyTorch_ implementation](https://github.com/annahung31/MidiNet-by-pytorch) of this project. I would like go with it.
+Authors directly provide [_Tensorflow_ implementation](https://github.com/RichardYang40148/MidiNet/tree/master/v1) of the project. Also, there is [_PyTorch_ implementation](https://github.com/annahung31/MidiNet-by-pytorch) of this project. 
+
+[**PyTorch Implementation**](https://github.com/annahung31/MidiNet-by-pytorch)
 
 - They use .xml as input format and convert into one-hot piano roll based representation. They omit the velocity and system can not distinguish one long note and two short note repeating notes.
 
@@ -223,6 +225,15 @@ Authors directly provide [_Tensorflow_ implementation](https://github.com/Richar
   - Run [_main.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/main.py) , is_train = 1 for training, is_draw = 1 for drawing loss, is_sample = 1 for generating music after finishing training.
   - If you would like to turn the output into real midi for listening. Run [_demo.py_](https://github.com/annahung31/MidiNet-by-pytorch/blob/master/demo.py)
 
+[**Tensorflow Implementation**]((https://github.com/RichardYang40148/MidiNet/tree/master/v1))
+
+We need to create .npy files from our datas. So we can train the system with our input.
+
+To train by our own dataset:
+```sh
+1. change line 134-136 to your data path
+2. run main.py --is_train True
+```
 ------------
 
 **OUR EXPERIMENTS**
