@@ -8,7 +8,9 @@ In this summary, I would like to list evaluation metrics of _Music Generation_ p
 
 2) **Distribution of Number of Tokens**
    
-    Idea comes from _Folk-RNN_ paper. They compare number of tokens in a song (how many token we have until the token which represent end of the sequence) from dataset and generated outputs. In our case, for example, **-1** in _Koma53_ represent end of the sequence. Thus, we can easily implement this metric.
+    Idea comes from _Folk-RNN_ paper. They compare number of tokens in a song (how many token we have until the token which represent end of the sequence) from dataset and generated outputs. 
+    
+    Ps. We can add _end_ token into our dataset to understand when the sequence is end.
 
     ![Alt Text](https://docs.google.com/uc?id=1JhQYSYsLzZRtejPY3BvwpASiXohbyodw)
 
@@ -25,6 +27,8 @@ In this summary, I would like to list evaluation metrics of _Music Generation_ p
 5) **Conservation of Metric Structure**
    
     Idea comes from [Algorithmic Composition of Melodies with Deep Recurrent Neural Networks](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#4-algorithmic-composition-of-melodies-with-deep-recurrent-neural-networks), they use _Irish Music_ as dataset and realized that system learns that from a rhythmical point of view, it is interesting to notice that, even though the model had no notion of bars implemented, the metric structure was preserved in the generated continuations.
+
+    _Ps. Andre Holzapfel's paper which is called [Relation between surface rhythm and rhythmic modes in Turkish makam music](http://www.diva-portal.org/smash/get/diva2:1040433/FULLTEXT01.pdf) can be helpful to understand metric structure of Turkish Makam Music_
 
 6) **Mutual Information with Time**
    
@@ -54,7 +58,8 @@ Note that, 9-10-11 comes from [C-RNN-GAN](https://github.com/hedonistrh/TurkishM
 
 10)  **Tone span**
 
-     _Tone span_ is the number of half-tone steps between the lowest and the highest tone in a sample.
+- _Tone span_ is the number of half-tone steps between the lowest and the highest tone in a sample.
+- _In our case, we should set the unit to Koma-53 intervals, instead of semitones_
 
 11)  **Repetitions**
     
@@ -71,6 +76,8 @@ Note that, 9-10-11 comes from [C-RNN-GAN](https://github.com/hedonistrh/TurkishM
     Average value of the
     interval between two consecutive pitches in semitones.
     The output is a scalar for each sample.
+
+    *For our case semitones -> TET-53*
 
 14) **Note Count**
     
@@ -96,8 +103,9 @@ Note that, 9-10-11 comes from [C-RNN-GAN](https://github.com/hedonistrh/TurkishM
 Now, lets look some metrics from [TUNING RECURRENT NEURAL NETWORKS WITH REINFORCEMENT LEARNING](https://github.com/hedonistrh/TurkishMusicGeneration/blob/master/2018-10-10-Literature-Review-for-Music-Generation.md#14-tuning-recurrent-neural-networks-with-reinforcement-learning) These are based on music theory rules.
 
 - **Notes Excessively Repeated**
-- **Notes not in key**
+- **Notes not in scale** _(This is good to report visually in melody bigrams, i.e. coloring the notes not in the scale differently.)_
 - **Melodies starting with tonic**
+  - In makams, starting not with the tonic (karar), but the initial/dominant (başlangıç/güçlü) note is important. _We need to eleborate this explanation._
 - **Melodies with unique min and max note**
 - **Notes in motif**
 - **Notes in repeated motif**
@@ -124,8 +132,8 @@ In our first meeting, we also discussed following metrics:
     ![Alt Text](https://docs.google.com/uc?id=0B-6ztEhriyaAdHVzRC1aeXpjVEhocFVmbFBycXNadzVBMnJn)
 
 
-- Usul Classification
-- User studies
+- Usul Classification _(Probably, we have not much time for this)_
+- User studies _(Probably, we have not much time for this)_
 - Note Distribution of the first section, second section etc.
 
 -----------
