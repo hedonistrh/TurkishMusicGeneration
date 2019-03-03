@@ -1,0 +1,3 @@
+[submodule "otmm_generation_dataset"]
+	path = otmm_generation_dataset
+	url = git@github.com:sertansenturk/otmm_generation_dataset.git
