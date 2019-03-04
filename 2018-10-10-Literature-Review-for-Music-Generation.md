@@ -1,6 +1,6 @@
 # Literature Review for Music Generation
 
-There is a [excellent survey](https://hal.sorbonne-universite.fr/hal-01660772/document) for Music Generation, however, I would like to create up-to-date blogpost for who wants to start with old methods and track new papers. Also you can check this [excellent slide-set.](http://www-desir.lip6.fr/~briot/documents/deep-learning-music-generation-tutorial-ismir-2017.pdf) 
+There is a [excellent survey](https://arxiv.org/pdf/1709.01620.pdf) for Music Generation, however, I would like to create up-to-date blogpost for who wants to start with old methods and track new papers. Also you can check this [excellent slide-set.](http://www-desir.lip6.fr/~briot/documents/deep-learning-music-generation-tutorial-ismir-2017.pdf) 
 
 In the survey, researchers defines whole attempts via 4 main dimensions. 
 
