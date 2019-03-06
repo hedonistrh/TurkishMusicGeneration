@@ -1,6 +1,11 @@
 ### This is a simple example to reproduce our results for Bi-LSTM Model. 
 
-- Firstly, you should run preprocess.py to generate our input and output sequences.
+- Unzip our txt files.
+  
+    ```bash
+    unzip txt.zip
+    ```
+- You should run preprocess.py to generate our input and output sequences.
 
     ```bash
     python preprocess.py <True or False> <Sequence Length>
@@ -18,7 +23,7 @@
     Example:
 
     ```bash
-    python preprocess.py 128 0.001 32 10
+    python train_model.py 128 0.001 32 10
     ```
 
 - Now, we can sample notes. 
