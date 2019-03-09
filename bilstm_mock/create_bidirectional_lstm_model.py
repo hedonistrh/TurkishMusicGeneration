@@ -20,30 +20,37 @@ def create_bidirectional_lstm_model(seq_length, vocab_size, rnn_size=512,
         vocab_size {int} -- How many distinct notes we have. :)
     
     Keyword Arguments:
-        rnn_size {int} -- [description] (default: {512})
-        learning_rate {float} -- [description] (default: {0.001})
+        rnn_size {int} -- Size of each LSTM layer. (default: {512})
+        learning_rate {float} -- Learning rate of our 
+            model. (default: {0.001})
     """
-    print('Build LSTM model.')
+    
+    print('LSTM model is building ...')
     model = Sequential()
-    model.add(Bidirectional(LSTM(rnn_size, activation="relu", return_sequences=True, 
-                                 kernel_initializer='random_normal',
-                                    bias_initializer='random_normal'),
-                            input_shape=(seq_length, vocab_size)))
-    model.add(Dropout(0.7))
-    model.add(Bidirectional(LSTM(rnn_size, activation="relu", return_sequences=True, 
+    model.add(Bidirectional(LSTM(rnn_size, activation="relu", 
+                                return_sequences=True, 
                                 kernel_initializer='random_normal',
-                                    bias_initializer='random_normal')))
+                                bias_initializer='random_normal'),
+                                input_shape=(seq_length, vocab_size)))
+    model.add(Dropout(0.7))
+    model.add(Bidirectional(LSTM(rnn_size, activation="relu", 
+                                return_sequences=True, 
+                                kernel_initializer='random_normal',
+                                bias_initializer='random_normal')))
     model.add(Dropout(0.7))
     model.add(Bidirectional(LSTM(rnn_size, activation="relu",
                                 kernel_initializer='random_normal',
-                                    bias_initializer='random_normal')))
+                                bias_initializer='random_normal')))
     model.add(Dropout(0.3))
     model.add(Dense(vocab_size))
     model.add(Activation('softmax'))
     
     optimizer = Adam(lr=learning_rate)
     callbacks=[EarlyStopping(patience=2, monitor='val_loss')]
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=[categorical_accuracy])
-    print("model built!")
+    model.compile(loss='categorical_crossentropy', 
+                optimizer=optimizer, 
+                metrics=[categorical_accuracy])
+
+    print("Model Built!")
     return model
 

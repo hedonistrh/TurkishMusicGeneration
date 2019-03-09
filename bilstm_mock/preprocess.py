@@ -4,9 +4,19 @@ import pandas as pd
 from collections import Counter
 import numpy as np
 
-def find_nearest(array, value):
+def find_nearest(array, note):
+    """Find the nearest common note for the uncommon note.
+    
+    Arguments:
+        array {numpy array} -- Store the common notes.
+        note {koma53 or komaAE value} -- Uncommon note value
+    
+    Returns:
+        {koma53 or komaAE value} -- Common note value
+    """
+
     array = np.asarray(array)
-    idx = (np.abs(array - value)).argmin()
+    idx = (np.abs(array - note)).argmin()
     return (array[idx])
 
 def map_notes(value_counts_of_note, threshold):
@@ -41,14 +51,6 @@ def map_notes(value_counts_of_note, threshold):
     return map_dict
 
 
-text_path = "./txt/"
-if ((os.path.isdir(text_path))==False):
-    print ("""Please Download Txt File via this
-    link https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/MTG/SymbTr/tree/master/txt""")
-    raise Exception
-else:
-    pass
-
 def preprocess(map_function, sequence_length):
     """This function will convert to our .txt inputs into
     appropriate numpy array for our input and output. 
@@ -59,6 +61,14 @@ def preprocess(map_function, sequence_length):
         sequence_length {int} -- To guess next sample, how many samples will be 
             used as input.
     """
+
+    text_path = "./txt/"
+    if ((os.path.isdir(text_path))==False):
+        print ("""Please Download Txt File via this
+        link https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/MTG/SymbTr/tree/master/txt""")
+        raise Exception
+    else:
+        pass
 
     root_dir = "./txt/"
     root_dir = glob.glob(os.path.join(root_dir, "*txt"))
@@ -149,6 +159,7 @@ def preprocess(map_function, sequence_length):
         os.mkdir(feature_storage_path)
     else:
         pass
+
     np.save(feature_storage_path + "input", input_sequence)
     np.save(feature_storage_path + "output", output_sequence)
 

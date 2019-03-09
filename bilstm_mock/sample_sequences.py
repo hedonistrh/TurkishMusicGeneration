@@ -6,7 +6,22 @@ from six.moves import cPickle
 from keras.models import load_model
 from create_bidirectional_lstm_model import create_bidirectional_lstm_model as create_model
 
-def sample(preds, temperature=1):
+def sample(preds, temperature=1.0):
+    """Helper function to sample an index from a probability array
+    
+    Arguments:
+        preds {numpy array} -- Array's values represent
+            probability of each note
+    
+    Keyword Arguments:
+        temperature {float} -- used to control the randomness 
+            of predictions by scaling the logits before applying softmax 
+            (default: {1.0})
+    
+    Returns:
+        {int} -- index of selected sample
+    """
+
     preds = np.asarray(preds).astype('float64')
     preds = np.log(preds) / temperature
     exp_preds = np.exp(preds)
@@ -15,6 +30,14 @@ def sample(preds, temperature=1):
     return np.argmax(probas)
 
 def sample_sequences(seq_length, rnn_size):
+    """We will generate our samples. :)
+    
+    Arguments:
+        seq_length {int} -- To guess next sample, how many samples will be 
+            used as input. Have to be same with create_model's parameter.
+        rnn_size {int} -- Size of each LSTM layer. 
+            Have to be same with create_model's parameter.
+    """
 
 
     seq_length = int(seq_length)
@@ -29,7 +52,6 @@ def sample_sequences(seq_length, rnn_size):
 
     vocab_size = len(words)
 
-
     model = create_model(seq_length, vocab_size, rnn_size)
 
     print("loading model...")
@@ -43,23 +65,22 @@ def sample_sequences(seq_length, rnn_size):
         sentence.append("322")
 
     seed = seed_sentences.split()
-
     for i in range(len(seed)):
         sentence[seq_length-i-1]=seed[len(seed)-i-1]
 
     generated += ' '.join(sentence)
-    print('Generating text with the following seed: "' + ' '.join(sentence) + '"')
+    print('Generating text with this seed:"' + ' '.join(sentence) + '"')
 
     words_number = 150
 
-    print (vocab)
-    # Generate the text
+    print ("Our Vocabulary:", vocab)
+    # Generate the sequences
     for i in range(words_number):
         #create the vector
         x = np.zeros((1, seq_length, vocab_size))
+
         for t, word in enumerate(sentence):
             x[0, t, vocab[word]] = 1.
-        #print(x.shape)
 
         #calculate next word
         preds = model.predict(x, verbose=0)[0]
@@ -68,12 +89,14 @@ def sample_sequences(seq_length, rnn_size):
 
         #add the next word to the text
         generated += " " + next_word
+
         # shift the sentence by one, and and the next word at its end
         sentence = sentence[1:] + [next_word]
     
     generated_notes_list = []
     for single_generated in generated.split(" "):
         generated_notes_list.append(int(single_generated))
+
     np.asarray(generated_notes_list)
     arr = np.asarray(generated_notes_list)
     generated_data_frame = pd.DataFrame({'Koma53':arr})
