@@ -62,15 +62,14 @@ def preprocess(map_function, sequence_length):
             used as input.
     """
 
-    text_path = "./txt/"
-    if ((os.path.isdir(text_path))==False):
+    root_dir = "./txt/"
+    if ((os.path.isdir(root_dir))==False):
         print ("""Please Download Txt File via this
         link https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/MTG/SymbTr/tree/master/txt""")
         raise Exception
     else:
         pass
 
-    root_dir = "./txt/"
     root_dir = glob.glob(os.path.join(root_dir, "*txt"))
     df_hicaz_sarki = pd.concat((pd.read_csv(f, 
                 sep="\t") for f in root_dir if "hicaz--sarki" in f))
